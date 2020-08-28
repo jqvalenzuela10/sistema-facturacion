@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<div class="wrapper">
+		<div class="wrapper" th:replace="layout/layout :: lateral"></div>
+
+		<div class="main-panel">
+
+			<div th:replace="layout/layout :: header"></div>
+			
+			<div class="content">
+
+				<div class="card bg-light">
+					<div class="card-header" th:text="|Listado de Facturas|"></div>
+					<div class="card-body">
+
+						<div class=" d-flex flex-row justify-content-between  pt-3 pb-3">
+							
+							<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#reporteFacturaModal">PDF</a>
+							
+							
+							
+							<div th:replace="layout/layout :: search"></div>
+						</div>
+						
+						<table class="table table-striped">
+						
+							<thead>
+								<tr>
+									<th>id</th>
+									<th>fecha</th>
+									<th>descripcion</th>
+									<th>Ver Detalle</th>
+									<th>cliente</th>
+									<th>Mesa</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="factura: ${facturas}">
+									<td th:text="${factura.id}"></td>
+									<td th:text="${factura.createAt}"></td>
+									<td th:text="${factura.descripcion}"></td>
+									<td><a  class="btn btn-success verDetalle" data-toggle="modal" data-target="#detalleModalFactura" th:href="@{/factura/getOne/(id=${factura.id})}" >Ver Detalle</a></td>
+									<td th:if="${factura.cliente != null}"  th:text="${factura.cliente.nombre}"></td>
+									<td th:if="${factura.cliente == null}"  th:text="'no existe'"></td>
+									<td th:text="${factura.mesa.descripcion}"></td>
+									
+								</tr>
+							</tbody>
+
+						</table>
+						<nav th:replace="paginator-nav :: paginator"></nav>
+					</div>
+				</div>
+			</div>
+
+
+
+
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+	</div>
+	</div>
+	
+	
+<div class="modal fade fade-scale" id="detalleModalFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+         <table class="table ">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Total</th>
+             
+            </tr>
+          </thead>
+          <tbody id="cargarDetalleProductos">
+           <!-- el detalle se cargar en el archivo agregar-producto-factura.js -->
+           
+          </tbody>
+        </table> 
+        
+        <div class="d-flex justify-content-end">
+          <h5>Total: <span id="total" class=" text-success"></span></h5>
+        </div>
+        
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="modal fade" id="reporteFacturaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reporte Pdf</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="d-flex flex-row justify-content-between">
+        	<label class="labelPicker" for="datepicker">Fecha 1
+			<input class="datePicker" type="text" id="datepickerInicio" autocomplete="off" th:name="fecha1" readonly required="required">
+			</label>	
+		
+			<label class="labelPicker" for="datepicker">Fecha 2
+			<input class="datePicker" type="text" id="datepickerFin" autocomplete="off" th:name="fecha2" readonly required="required">
+			</label>
+		</div>	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="reportePdf" class="btn btn-danger">Generar</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+	<script th:replace="factura/js/agregar-producto-factura:: addProduct"></script>
+	<script th:replace="factura/js/reporte-pdf :: inputDate"></script>
+</body>
+</html>

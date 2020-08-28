@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<script type="text/javascript" th:fragment="nav-item">
+		$(document).ready(function() {
+			
+			
+		if(localStorage.getItem("nav-item")!=null){
+			
+			
+		
+			let id=localStorage.getItem("nav-item");
+			
+			
+			/**/
+			
+			
+			console.log($(id).parent().find("a"));
+			
+			$(id).parent().find("a").each(function(){
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+				}
+			})
+			
+			/**/
+			$(id).addClass("active");
+			
+		}	
+			
+		$("#v-pills-tab").click(function(e){
+			
+			localStorage.setItem('nav-item', `#${e.target.id}`);
+			
+		})
+
+		
+		
+		
+		})
+	</script>
+</body>
+</html>

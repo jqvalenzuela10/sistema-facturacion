@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+<meta charset="UTF-8" />
+<title
+	th:text="'Spring Boot: MVC + Thymeleaf + Data JPA - ' + ${titulo}"></title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.css"
+	rel="stylesheet">
+<!-- CSS Files -->
+<link th:href="@{/css/light-bootstrap-dashboard.css?v=2.0.0}"
+	rel="stylesheet" />
+<link th:href="@{/css/demo.css}" rel="stylesheet" />
+
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+
+
+</head>
+<body>
+
+
+	<div th:fragment="lateral" class="sidebar"
+		data-image="../assets/img/sidebar-5.jpg">
+		<!--
+         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+ 
+         Tip 2: you can also add an image using data-image tag
+     -->
+		<div class="sidebar-wrapper">
+			<div class="logo">
+				<a href="#" class="simple-text">
+					Sistema Facturacion </a>
+			</div>
+
+			<div class="nav flex-column nav-pills nav-tabs" id="v-pills-tab"
+				role="tablist" aria-orientation="vertical">
+				<a class="nav-link active" id="venta-nav" href="/ventas" role="tab"
+					aria-controls="v-pills-home" aria-selected="true">Ventas</a>
+					<a class="nav-link" id="v-pills-messages-tab" 
+					href="/facturas" role="tab"
+					aria-controls="v-pills-messages" aria-selected="false">Facturas</a>
+					
+					<a class="nav-link"
+					id="cliente-nav" href="/clientes" role="tab"
+					aria-controls="v-pills-messages" aria-selected="false">Clientes</a>
+					 <a
+					class="nav-link" id="producto-nav" 
+					href="/productos" role="tab" aria-controls="v-pills-profile"
+					aria-selected="false">Productos</a> 
+				
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+	<!-- Navbar -->
+	<nav th:fragment="header" class="navbar navbar-expand-lg "
+		color-on-scroll="500">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#"> Dashboard </a>
+			<button href="" class="navbar-toggler navbar-toggler-right"
+				type="button" data-toggle="collapse"
+				aria-controls="navigation-index" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-bar burger-lines"></span> <span
+					class="navbar-toggler-bar burger-lines"></span> <span
+					class="navbar-toggler-bar burger-lines"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end "
+				id="navigation">
+
+				<ul class="navbar-nav ml-auto ">
+
+					<li class="nav-item dropdown "><a
+						class="nav-link dropdown-toggle" href="http://example.com"
+						id="navbarDropdownMenuLink" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> <span
+							class="no-icon">Perfil</span>
+					</a>
+						<div class="dropdown-menu"
+							aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">Cambiar Contraseña</a> <a
+								class="dropdown-item" href="#">Modo Oscuro</a> 
+							
+							<div class="divider"></div>
+							<a class="dropdown-item ´	" href="#">Cerrar sesion</a>
+						</div></li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="alert alert-success" th:if="${success != null}"
+			th:text="${success}"></div>
+		<div class="alert alert-danger" th:if="${error != null}"
+			th:text="${error}"></div>
+		<div class="alert alert-warning" th:if="${warning != null}"
+			th:text="${warning}"></div>
+		<div class="alert alert-info" th:if="${info != null}"
+			th:text="${info}"></div>
+	</nav>
+
+
+
+
+
+
+	<form th:fragment="search"
+		class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+		<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
+			fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd"
+				d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+  <path fill-rule="evenodd"
+				d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+</svg>
+		<input class="form-control form-control-sm ml-3 w-75" type="text"
+			placeholder="Search" aria-label="Search">
+	</form>
+
+	<footer th:fragment="footer" class="footer">
+		<div class="container-fluid">
+			<nav>
+
+				<p class="copyright text-center">
+					©
+					<script>
+						document.write(new Date().getFullYear())
+					</script>
+					<a href="http://www.creative-tim.com"></a>jonathan quilca
+					valenzuela
+				</p>
+			</nav>
+		</div>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/js/popper.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+			integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+			crossorigin="anonymous"></script>
+		<script th:src="@{/js/sniper-count.js}"></script>
+		<script th:replace="factura/js/nav-item-active :: nav-item"></script>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<div class="wrapper">
+		<div class="wrapper" th:replace="layout/layout :: lateral"></div>
+
+		<div class="main-panel">
+
+			<div th:replace="layout/layout :: header"></div>
+
+
+			<!-- End Navbar -->
+			<div class="content">
+				<div class="container-fluid">
+
+					<button type="button" class="btn btn-secondary" style="width: 10%;"
+						data-toggle="modal" data-target="#agregarMesa">Agregar
+						Mesa</button>
+
+					<div class="row d-flex    justify-content-between pl-3">
+
+
+
+						<!-- mesas -->
+						<div th:each="mesa : ${mesa}" class=" card bg-light mb-3 mt-3"
+							style="max-width: 14rem; width: 25%; min-width: 15rem; height: 400px;">
+
+							<div
+								class="card-header d-flex justify-content-between align-items-center">
+
+								<h6 style="margin: 0" th:text="|${mesa.descripcion}|"></h6>
+
+
+
+							</div>
+							<div class="card-body">
+								<div th:each="facturas : ${mesa.facturas}"
+									th:if="${facturas.estado==false}">
+									<div class="d-flex flex-row justify-content-between">
+										<h5 class="card-title">Pedido</h5>
+										<a class="btn-agregar-producto-pedido"
+											th:href="@{/factura/getOne/(id=${facturas.id})}"> <svg
+												width="1.5em" height="1.5em" viewBox="0 0 16 16"
+												class="bi bi-plus" fill="currentColor"
+												xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+													d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z" />
+                                        <path fill-rule="evenodd"
+													d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z" />
+                                    </svg>
+										</a>
+									</div>
+									<ul class="list-group ">
+										
+										<li th:each="pro:${facturas.items}"
+											class="list-group-item d-flex justify-content-between align-items-center mt-2"
+											style="padding-top: 0; padding-bottom: 0;">
+
+											<div class="row">
+												<a th:href="@{/eliminarProductoPedido/}+${pro.id}" class="bg-danger"  style="border-radius: 50%;font-size: 1.2px;position: absolute;top:-5px;left:-5px;">
+												<svg style="color:white" width="10em" height="10em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  													<path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+ 													 <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+													</svg>
+												</a>
+												<img width="20px" height="20px" style="border-radius: 50%;"
+													src="https://images.rappi.pe/products/333285-1587484603825.png?d=200x200&e=webp"
+													alt="">
+												<div
+													style="margin: 0; font-size: 9px; font-family: Poppins-Regular, Helvetica, Arial, sans-serif;"
+													class="pl-2">
+													<h6 style="font-size: 10px; margin: 0;"
+														th:text="${pro.producto.nombre}"></h6>
+													<span th:text="${pro.producto.precio}"
+														th:class="precioProducto"></span>
+												</div>
+											</div>
+											<div class="input-group spinner">
+												<input style="font-size: 10px;" type="text"
+													class="form-control cantidadProducto"
+													th:value="${pro.cantidad}" th:name="cantidadProducto">
+												<div class="input-group-btn-vertical">
+													<button class="btn btn-default" type="button">
+														<i class="fa fa-caret-up"></i>
+													</button>
+													<button class="btn btn-default" type="button">
+														<i class="fa fa-caret-down"></i>
+													</button>
+												</div>
+
+											</div>
+										</li>
+
+
+									</ul>
+									<div class="mt-5 d-flex flex-row justify-content-between align-items-center">
+									<span  class="grantTotal"
+										style="font-family: Poppins-Regular, Helvetica, Arial, sans-serif;"
+										th:text="${facturas.getTotal()}"></span> 
+										<a th:if="${facturas.getTotal() != 0.0}" class="btn btn-success btn-grabar-venta"
+										th:href="@{/factura/getOne/(id=${facturas.id})}">Pagar</a>
+										</div>
+								</div>
+
+							</div>
+
+							<div
+								class="card-footer bg-transparent  d-flex justify-content-between align-items-center">
+								<p></p>
+
+							</div>
+						</div>
+					</div>
+
+
+
+
+				</div>
+			</div>
+
+			<footer th:replace="layout/layout :: footer"></footer>
+		</div>
+
+		<!--modal-->
+
+		<!-- Modal -->
+		<form th:action="@{/mesa}" th:object="${mesa}" method="post">
+			<div class="modal fade" id="agregarMesa" tabindex="-1" role="dialog"
+				aria-labelledby="agregarMesa" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="agregarMesa">Ingrese el nombre
+								de la mesa</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="row">
+								<div class="col">
+
+									<input type="text" th:name="descripcion" class="form-control"
+										placeholder="descripcion" required="required">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success">Agregar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- Modal -->
+		<form th:action="@{/agregarProductoPedido}" th:object="${item}"
+			method="post">
+			<div class="modal fade" id="agregarProductoPedido" tabindex="-1"
+				role="dialog" aria-labelledby="agregarProductoPedido"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div th:object="${factura}" class="modal-header">
+							<h5 class="modal-title" id="agregarMesa"></h5>
+
+							<input type="hidden" class="idPedido" name="factura.id" />
+
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							
+								<input type="hidden" th:id="id" th:name="producto.id">
+								<div class="form-group">
+									<label for="exampleFormControlInput1">Descripcion</label> 
+									<input
+										type="text" th:id="nombre" th:name="producto.nombre"
+										class="form-control" placeholder="nombre del producto" />
+								</div>
+
+
+								<div class="form-group">
+									<label for="exampleFormControlInput1">Cantidad</label>
+									<input class="form-control" type="number" th:id="cantidad" th:name="cantidad"
+										placeholder="cantidad">
+
+								</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success">Agregar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<!-- Modal -->
+		<form th:action="@{/grabarVenta}" th:object="${factura}" method="post">
+			<div class="modal fade" id="grabarVenta" tabindex="-1" role="dialog"
+				aria-labelledby="grabarVenta" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">PAGAR</h5>
+							<input type="hidden" class="idMesa" th:name="mesa.id" /> <input
+								type="hidden" class="idPedido" th:name="id" />
+							<div class="cantidadDeProductos"></div>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="row">
+								<div class="col">
+									<input type="hidden" th:id="idCliente" th:name="cliente.id">
+									<input type="text" class="form-control"
+										placeholder="Nombre Cliente" th:id="nombreCliente"
+										th:name="cliente.nombre">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success">Pagar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<script th:replace="factura/js/autocomplete-producto :: javascript"></script>
+	<script
+		th:replace="factura/js/autocomplete-cliente :: autocomplete-cliente"></script>
+	<script th:replace="factura/js/agregar-producto-factura :: addProduct"></script>
+
+</body>
+
+
+
+</html>

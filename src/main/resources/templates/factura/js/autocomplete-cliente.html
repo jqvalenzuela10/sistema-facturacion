@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<script type="text/javascript" th:fragment="autocomplete-cliente">
+	
+	$(document).ready(function(){
+		
+		$("#nombreCliente").autocomplete({
+
+			source : function(request, response) {
+				$.ajax({
+					url : "/cargar-clientes/" + request.term,
+					dataType : "json",
+					data : {
+						term : request.term
+					},
+					success : function(data) {
+						
+						response($.map(data, function(item) {
+							return {
+								value : item.id,
+								label : item.nombre,
+								apellido: item.apellido,
+								
+							};
+						}));
+					},
+				});
+			},
+			select : function(event, ui) {
+				//$("#buscar_producto").val(ui.item.label);
+				
+				$('#idCliente').val(ui.item.value);
+				$('#nombreCliente').val(ui.item.label);
+				
+				
+				return false;
+			}
+		});
+		
+	
+		
+	})
+	
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+
+<script type="text/javascript" th:fragment="addProduct" th:inline="javascript">
+	
+	$(document).ready(function(){
+		
+		
+		
+		$('.btn-agregar-producto-pedido').on('click', function (e) {
+			
+			e.preventDefault();
+			
+			var href=$(this).attr('href');
+			 $('.modal-title').empty();
+			axios.get(href)
+			  .then(function (response) {
+			    // handle success
+			    console.log(response.data.id);
+			   
+			  $('.modal-title').append(`Agregar Producto para la ${response.data.mesa.descripcion}`);
+			   $('.idPedido').val(response.data.id);
+			  })
+			
+			$('#agregarProductoPedido').modal('show');
+			
+		})
+		
+		
+		$('.btn-grabar-venta').on('click', function (e) {
+			
+			e.preventDefault();
+			
+			var href=$(this).attr('href');
+			console.log(href);
+			
+			axios.get(href)
+			  .then(function (response) {
+			    // handle success
+			    console.log(response.data);
+			    $('.idPedido').val(response.data.id);
+			   $('.idMesa').val(response.data.mesa.id);
+			  })
+			
+			$('#grabarVenta').modal('show');
+			
+		})
+		
+		
+		
+		$('.verDetalle').on('click', function (e) {
+			
+			e.preventDefault();
+			
+			var href=$(this).attr('href');
+			console.log(href);
+			
+			axios.get(href)
+			  .then(function (response) {
+			    // handle success
+			    let listaDetalleProducto=response.data.items;
+			    let total=0;
+			    
+			    $(".modal-title").empty();
+			    $(".modal-title").append(`detalle para la factura ${response.data.id}`);
+			    
+			    $("#cargarDetalleProductos").empty();
+				$.each(listaDetalleProducto, function(index,element) {
+					
+					
+					
+					$("#cargarDetalleProductos").append(`
+				    		 <tr>
+				              <td class="w-25">
+				                <img src='https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png' class='img-fluid img-thumbnail' alt='Sheep'>
+				              </td>
+				              <td>${element.producto.nombre}</td>
+				              <td>${element.producto.precio}</td>
+				              <td class="qty">${element.cantidad}</td>
+				              <td>${element.producto.precio*element.cantidad}</td>
+				            </tr>
+				    		`)
+				    		
+				    		total+=element.producto.precio*element.cantidad
+				});
+				
+				$("#total").empty();
+			    $("#total").append(`${total}`);
+			    
+			  })
+			
+			$('#detalleModalFactura').modal('show');
+			
+		})
+		
+		
+		
+	})
+	
+</script>
+
+</body>
+</html>

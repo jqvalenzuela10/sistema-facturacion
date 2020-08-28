@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<script type="text/javascript" th:fragment="inputDate">
+		$(document).ready(function() {
+			
+			
+			$( "#datepickerInicio" ).datepicker({
+				dateFormat: "yy-mm-dd"
+				,duration: "fast"
+			});
+		
+			$( "#datepickerFin" ).datepicker({
+				dateFormat: "yy-mm-dd"
+				,duration: "fast"
+			});
+		
+			
+			$("#reportePdf").click(function(e){
+				
+				
+				const fecha1=$("#datepickerInicio").val();
+				const fecha2=$("#datepickerFin").val();
+				console.log(fecha1+"  "+fecha2);
+				
+				if(fecha1!='' && fecha2 != ''){
+				window.open("http://localhost:8080/factura/pdf/?fecha1="+fecha1+"&fecha2="+fecha2+"&format=pdf");
+				}else{
+					alert('ingrese el rango de fechas');
+				}
+			})
+		})
+	</script>
+</body>
+</html>
